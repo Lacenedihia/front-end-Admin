@@ -2,9 +2,7 @@
   <section>
     <p ref="errRef" :class="errMsg ? 'errmsg' : 'offscreen'" aria-live="assertive">{{ errMsg }}</p>
     <h1 v-if="success">Success!</h1>
-    <p v-if="success">
-      <a href="#">Sign In</a>
-    </p>
+  
     <form v-else @submit.prevent="handleSubmit">
       <label for="username">
         Username:
