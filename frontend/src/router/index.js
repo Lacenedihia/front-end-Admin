@@ -7,14 +7,22 @@ const routes = [
   },
   {
     path: "/login",
-    name: "login",
+    name: "LoginComponent",
     component: () => import("@/views/Login.vue"),
     meta: {
-      title: "Login",
+      title: "LoginComponent",
     }
   },
   {
     path: "/register",
+    name: "registerr",
+    component: () => import("@/views/reg.vue"),
+    meta: {
+      title: "registerr",
+    }
+  },
+  {
+    path: "/reg",
     name: "register",
     component: () => import("@/views/register.vue"),
     meta: {
