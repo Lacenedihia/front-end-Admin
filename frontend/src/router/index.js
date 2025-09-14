@@ -20,6 +20,14 @@ const routes = [
     meta: {
       title: "register",
     }
+  },
+  {
+    path: "/dashboard",
+    name: "dashboard",
+    component: () => import("@/views/dashboard.vue"),
+    meta: {
+      title: "dashboard",
+    }
   }
 ];
 

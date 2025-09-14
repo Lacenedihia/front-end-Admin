@@ -1,7 +1,8 @@
 <template>
-  <section>
+ 
     <p ref="errRef" :class="errMsg ? 'errmsg' : 'offscreen'" aria-live="assertive">{{ errMsg }}</p>
     <h1 v-if="success">Success!</h1>
+     <section v-else>
     <h1>Sign In</h1>
     
     <form @submit.prevent="handleSubmit" class ="form">
@@ -122,7 +123,7 @@ export default {
                 user.value = '';
                 pwd.value = '';
                 success.value = true;
-                router.replace(from);
+                router.push('/dashboard'); 
             } catch (err) {
                 if (!err.response) {
                     errMsg.value = 'No Server Response';
