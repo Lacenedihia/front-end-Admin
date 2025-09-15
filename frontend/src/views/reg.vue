@@ -1,10 +1,12 @@
 <template>
 <div>
-  <div class="scroll-down">SCROLL DOWN
+  
+  <div class="scroll-down"> SCROLL DOWN
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
       <path d="M16 3C8.832031 3 3 8.832031 3 16s5.832031 13 13 13 13-5.832031 13-13S23.167969 3 16 3zm0 2c6.085938 0 11 4.914063 11 11 0 6.085938-4.914062 11-11 11-6.085937 0-11-4.914062-11-11C5 9.914063 9.914063 5 16 5zm-1 4v10.28125l-4-4-1.40625 1.4375L16 23.125l6.40625-6.40625L21 15.28125l-4 4V9z"/> 
     </svg>
   </div>
+  
   
   <div class="container"></div>
   
@@ -19,17 +21,15 @@
         
         <h1 class="modal-title">Register Page</h1>
         <p class="modal-desc"></p>
-        
-        <div class="input-block">
-          <label for="email" class="input-label">Username:
-        <FontAwesomeIcon :icon="faCheck" :class="validName ? 'valid' : 'hide'" />
-        <FontAwesomeIcon :icon="faTimes" :class="validName || !user ? 'hide' : 'invalid'" />
-    </label>
-          <input 
+   
+    
+
+<div class="inputGroup">
+      <input 
             type="text" 
             name="email"   
             id="username"
-            placeholder="Username"
+           
              autocomplete="off" 
             ref="userRef"
             v-model="user"
@@ -38,23 +38,30 @@
         aria-describedby="uidnote"
         @focus="userFocus = true"
         @blur="userFocus = false"/>
-        </div>
-         <p id="uidnote" :class="userFocus && user && !validName ? 'instructions' : 'offscreen'">
-        <FontAwesomeIcon :icon="faInfoCircle" />
+        
+       <label for="name" class="input-label">Username
+        <FontAwesomeIcon :icon="faCheck" :class="validName ? 'valid' : 'hide'" />
+        <FontAwesomeIcon :icon="faTimes" :class="validName || !user ? 'hide' : 'invalid'" />
+    </label>
+
+</div>
+
+<div  :class="userFocus && user && !validName ? 'tooltip-content show' : 'tooltip-content offscreen'"
+    class="smooth-tooltip">
+
+<p id="uidnote" >
+        
         4 to 24 characters.<br />
         Must begin with a letter.<br />
         Letters, numbers, underscores, hyphens allowed.
-      </p>
-        <div class="input-block">
-          <label for="password" class="input-label">  Password:
-        <FontAwesomeIcon :icon="faCheck" :class="validPwd ? 'valid' : 'hide'" />
-        <FontAwesomeIcon :icon="faTimes" :class="validPwd || !pwd ? 'hide' : 'invalid'" />
-    </label>
-          <input 
+      </p></div>
+     
+  <div class="inputGroup">
+   <input 
             type="password" 
             name="password" 
             id="password" 
-            placeholder="Password"   
+          autocomplete="off"
             v-model="pwd"
             required
             :aria-invalid="!validPwd"
@@ -62,24 +69,28 @@
         @focus="pwdFocus = true"
         @blur="pwdFocus = false"
             />
-            <p id="pwdnote" :class="pwdFocus && !validPwd ? 'instructions' : 'offscreen'">
-        <FontAwesomeIcon :icon="faInfoCircle" />
+        
+        <label for="password" class="input-label">Password
+        <FontAwesomeIcon :icon="faCheck" :class="validPwd ? 'valid' : 'hide'" />
+        <FontAwesomeIcon :icon="faTimes" :class="validPwd || !pwd ? 'hide' : 'invalid'" />
+    </label>
+
+</div>   
+  <div  :class="pwdFocus && !validPwd ?'tooltip-content show' : 'tooltip-content offscreen'"
+    class="smooth-tooltip">
+    <p id="pwdnote" >
+     
         8 to 24 characters.<br />
         Must include uppercase and lowercase letters, a number and a special character.<br />
         Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
       </p>
-        
-    </div>
-     <div class="input-block">
-       <label for="confirm_pwd" class="input-label">  Confirm Password:
-        <FontAwesomeIcon :icon="faCheck" :class="validMatch && matchPwd ? 'valid' : 'hide'" />
-        <FontAwesomeIcon :icon="faTimes" :class="validMatch || !matchPwd ? 'hide' : 'invalid'" />
-       </label>
-          <input 
+</div>
+ <div class="inputGroup">
+     <input 
             type="password" 
             name="password" 
             id="confirm_pwd" 
-            placeholder="Password"   
+           autocomplete="off"
               v-model="matchPwd"
         required
         :aria-invalid="!validMatch"
@@ -87,31 +98,53 @@
         @focus="matchFocus = true"
         @blur="matchFocus = false"
             />
-      <p id="confirmnote" :class="matchFocus && !validMatch ? 'instructions' : 'offscreen'">
-        <FontAwesomeIcon :icon="faInfoCircle" />
+        <label for="confirm_pwd" class="input-label">  Confirm
+        <FontAwesomeIcon :icon="faCheck" :class="validMatch && matchPwd ? 'valid' : 'hide'" />
+        <FontAwesomeIcon :icon="faTimes" :class="validMatch || !matchPwd ? 'hide' : 'invalid'" />
+       </label>
+
+</div> 
+<div  :class="matchFocus && !validMatch ? 'tooltip-content show' : 'tooltip-content offscreen'"
+    class="smooth-tooltip">
+    <p id="confirmnote" >
+       
         Must match the first password input field.
       </p>
+      </div> 
 
-      
-    
-    
-    
-    
-    </div>
-        
+ 
+
+
+
         <div class="modal-buttons">
-          <router-link to="/login">LogIn Page</router-link>
-          <button type="submit" class="input-button" :disabled="!validName || !validPwd || !validMatch">Register</button>
+          
+   <!-- svgIcon -->
+    <router-link to="/login" >
+<button class="Btn" type="submit" :disabled="!validName || !validPwd || !validMatch">
+  <div class="sign">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
+  </div>
+
+  <div class="text">LogIn</div>
+</button></router-link>
+
+     <!-- From Uiverse.io by MUJTABA201566 --> 
+<button class="Btn" type="submit" :disabled="!validName || !validPwd || !validMatch">
+  <div class="sign">
+   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M80-160v-112q0-33 17-62t47-44q51-26 115-44t141-18q30 0 58.5 3t55.5 9l-70 70q-11-2-21.5-2H400q-71 0-127.5 17T180-306q-9 5-14.5 14t-5.5 20v32h250l80 80H80Zm542 16L484-282l56-56 82 82 202-202 56 56-258 258ZM400-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm10 240Zm-10-320q33 0 56.5-23.5T480-640q0-33-23.5-56.5T400-720q-33 0-56.5 23.5T320-640q0 33 23.5 56.5T400-560Zm0-80Z"/></svg> </div>
+
+  <div class="text">Register</div>
+</button>
+ 
         </div>
 
       
       </div>
       
       <div class="modal-right">
-        <img src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=dfd2ec5a01006fd8c4d7592a381d3776&auto=format&fit=crop&w=1000&q=80" alt="Login background">
+        <img src="/public/login.jpg" alt="Login background">
       </div>
-      
-      <button type="button" class="icon-button close-button" @click="closeModal">
+        <button type="button" class="icon-button close-button" @click="closeModal">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
           <path d="M 25 3 C 12.86158 3 3 12.86158 3 25 C 3 37.13842 12.86158 47 25 47 C 37.13842 47 47 37.13842 47 25 C 47 12.86158 37.13842 3 25 3 z M 25 5 C 36.05754 5 45 13.94246 45 25 C 45 36.05754 36.05754 45 25 45 C 13.94246 45 5 36.05754 5 25 C 5 13.94246 13.94246 5 25 5 z M 16.990234 15.990234 A 1.0001 1.0001 0 0 0 16.292969 17.707031 L 23.585938 25 L 16.292969 32.292969 A 1.0001 1.0001 0 1 0 17.707031 33.707031 L 25 26.414062 L 32.292969 33.707031 A 1.0001 1.0001 0 1 0 33.707031 32.292969 L 26.414062 25 L 33.707031 17.707031 A 1.0001 1.0001 0 0 0 32.980469 15.990234 A 1.0001 1.0001 0 0 0 32.292969 16.292969 L 25 23.585938 L 17.707031 16.292969 A 1.0001 1.0001 0 0 0 16.990234 15.990234 z"></path>
         </svg>
@@ -284,16 +317,20 @@ const openModal = () => {
 * {
   box-sizing: border-box;
 }
-
+.icon-button{ fill:#ffffff;}
+.icon-button:hover{ fill:#89939a;}
 body {
   font-family: "Nunito", sans-serif;
   color: rgba(#000, 0.7);
 }
 
+
+
+
 .container {
   height: 200vh;
-  background-image: url(https://images.unsplash.com/photo-1538137524007-21e48fa42f3f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ac9fa0975bd2ebad7afd906c5a3a15ab&auto=format&fit=crop&w=1834&q=80);
-  background-size: cover;
+   background-image:  url("./public/walpaper.jpg");
+    background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -303,7 +340,7 @@ body {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 60px;
+  height: 100px;
   background: rgba(#333, 0.5);
   display: flex;
   flex-direction: column;
@@ -346,7 +383,7 @@ body {
   }
 
   &-button {
-    color: darken(#8c7569, 5%);
+    color: darken(#dbc5d8, 5%);
     font-family: "Nunito", sans-serif;
     font-size: 18px;
     cursor: pointer;
@@ -402,6 +439,7 @@ body {
       transform: translateY(0);
       opacity: 1;
       transition-delay: 0.1s;
+      margin-top: 30px;
     }
   }
 
@@ -423,66 +461,10 @@ body {
   text-align: center;
 
   a {
-    color: #8c7569;
+    color: #dbc5d8;
   }
 }
 
-.input-button {
-  padding: 8px 12px;
-  outline: none;
-  border: 0;
-  color: #fff;
-  border-radius: 4px;
-  background: #8c7569;
-  font-family: "Nunito", sans-serif;
-  transition: 0.3s;
-  cursor: pointer;
-
-  &:hover {
-    background: #55311c;
-  }
-}
-
-.input-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  font-family: "Nunito", sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.7px;
-  color: #8c7569;
-  transition: 0.3s;
-}
-
-.input-block {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 10px 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  transition: 0.3s;
-
-  input {
-    outline: 0;
-    border: 0;
-    padding: 4px 0 0;
-    font-size: 14px;
-    font-family: "Nunito", sans-serif;
-
-    &::placeholder {
-      color: #ccc;
-      opacity: 1;
-    }
-  }
-
-  &:focus-within {
-    border-color: #8c7569;
-
-    .input-label {
-      color: rgba(#8c7569, 0.8);
-    }
-  }
-}
 
 .icon-button {
   outline: 0;
@@ -505,7 +487,7 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: darken(#8c7569, 5%);
+  color: darken(#f9fbfc, 5%);
   font-size: 32px;
   font-weight: 800;
   transform: translate(-50%, -50%);
@@ -517,26 +499,11 @@ body {
 }
 
 
-@media(max-width: 750px) {
-  .modal-container {
-    width: 90%;
-  }
-  .modal-right {
-    display: none;
-  }
-}
 /* Add your styles here */
 * {
   box-sizing: border-box;
 }
 
-.container {
-  height: 200vh;
-  background-image: url(https://images.unsplash.com/photo-1538137524007-21e48fa42f3f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ac9fa0975bd2ebad7afd906c5a3a15ab&auto=format&fit=crop&w=1834&q=80);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
 
 .modal {
   position: fixed;
@@ -544,7 +511,7 @@ body {
   bottom: 0;
   width: 100%;
   height: 60px;
-  background: rgba(51, 51, 51, 0.5);
+  background: rgba(172, 171, 171, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -554,11 +521,13 @@ body {
 
 .modal-container {
   display: flex;
-  max-width: 720px;
-  width: 100%;
+ 
+  width: 60%;
+  height:60%;
   border-radius: 10px;
   overflow: hidden;
   position: absolute;
+  margin:15px;
   opacity: 0;
   pointer-events: none;
   transition-duration: 0.3s;
@@ -567,18 +536,20 @@ body {
 }
 
 .modal-title {
-  font-size: 26px;
-  margin: 0;
-  font-weight: 400;
-  color: #55311c;
-}
+   text-align: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin: 10px 0 30px 0;
+  font-size: 28px;
+  font-weight: 800;
 
-.modal-desc {
-  margin: 6px 0 30px 0;
 }
+p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;}
+
 
 .modal-left {
-  padding: 60px 30px 20px;
+  padding: 60px 30px 60px;
   background: #fff;
   flex: 1.5;
   transition-duration: 0.5s;
@@ -647,16 +618,12 @@ body {
 }
 
 .modal-buttons {
+  margin-top:70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.modal-buttons a {
-  color: rgba(51, 51, 51, 0.6);
-  font-size: 14px;
-  text-decoration: none;
-}
 
 .sign-up {
   margin: 60px 0 0;
@@ -669,62 +636,9 @@ body {
   text-decoration: none;
 }
 
-.input-button {
-  padding: 8px 12px;
-  outline: none;
-  border: 0;
-  color: #fff;
-  border-radius: 4px;
-  background: #8c7569;
-  font-family: "Nunito", sans-serif;
-  transition: 0.3s;
-  cursor: pointer;
-}
 
-.input-button:hover {
-  background: #55311c;
-}
 
-.input-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  font-family: "Nunito", sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.7px;
-  color: #8c7569;
-  transition: 0.3s;
-}
 
-.input-block {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 10px 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  transition: 0.3s;
-}
-
-.input-block input {
-  outline: 0;
-  border: 0;
-  padding: 4px 0 0;
-  font-size: 14px;
-  font-family: "Nunito", sans-serif;
-}
-
-.input-block input::placeholder {
-  color: #ccc;
-  opacity: 1;
-}
-
-.input-block:focus-within {
-  border-color: #8c7569;
-}
-
-.input-block:focus-within .input-label {
-  color: rgba(140, 117, 105, 0.8);
-}
 
 .icon-button {
   outline: 0;
@@ -747,7 +661,7 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: #6b5b52;
+  color: #276789;
   font-size: 32px;
   font-weight: 800;
   transform: translate(-50%, -50%);
@@ -768,10 +682,6 @@ body {
   border-radius: 4px;
 }
 
-.offscreen {
-  position: absolute;
-  left: -9999px;
-}
 
 @media(max-width: 750px) {
   .modal-container {
@@ -781,4 +691,198 @@ body {
     display: none;
   }
 }
-</style>>
+
+
+
+
+.inputGroup {
+  font-family: 'Segoe UI', sans-serif;
+  margin-top:60px;
+  margin-bottom: 40px;
+    margin-left:20px;
+     margin-right:20px;
+  width:80%;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.inputGroup input {
+  font-size: 100%;
+  padding: 0.8em;
+  outline: none;
+  border: 2px solid rgb(200, 200, 200);
+  background-color: transparent;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.inputGroup label {
+  font-size: 100%;
+  position: absolute;
+  left: 0;
+ 
+  padding: 0.8em;
+  margin-left: 0.5em;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  color: rgb(100, 100, 100);
+}
+
+.inputGroup :is(input:focus, input:valid)~label {
+  transform: translateY(-50%) scale(.9);
+  margin: 0em;
+  margin-left: 1.3em;
+  padding: 0.4em;
+  background-color: #fff;
+}
+
+.inputGroup :is(input:focus, input:valid) {
+  border-color: rgb(150, 150, 200);
+}
+
+
+
+
+
+
+.tooltip-container {
+  position: relative;
+  z-index: 1000;
+}
+
+.tooltip-content {
+  position: absolute;
+ 
+  left: 0;
+  right: 0;
+  
+  color: rgb(0, 0, 0);
+  padding: 16px;
+  border-radius: 10px;
+  font-size: 18px;
+  line-height: 1.5;
+ 
+  background: rgba(255, 255, 255, 0.19);
+  backdrop-filter: blur(17px);
+  -webkit-backdrop-filter: blur(17px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 26px 13px rgba(255, 255, 255, 1.3);
+  margin-top: 8px;
+  transform: translateY(-10px) scale(0.95);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 1000;
+}
+
+.tooltip-content::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.tooltip-content.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip-content::after {
+ 
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
+.Btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: 0.3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background-color: white;
+}
+
+/* plus sign */
+.sign {
+  width: 100%;
+  transition-duration: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign svg {
+  width: 17px;
+}
+
+.sign svg path {
+  fill: black;
+}
+/* text */
+.text {
+  
+  right: 0%;
+  width: 0%;
+  opacity: 0;
+  color: white;
+  font-size: 1.2em;
+  font-weight: 600;
+  transition-duration: 0.3s;
+}
+/* hover effect on button width */
+.Btn:hover {
+  background-color: black;
+  width: 125px;
+  border-radius: 40px;
+  transition-duration: 0.3s;
+}
+
+.Btn:hover .sign {
+  width: 30%;
+  transition-duration: 0.3s;
+  padding-left: 20px;
+}
+
+.Btn:hover .sign svg path {
+  fill: white;
+}
+
+/* hover effect button's text */
+.Btn:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: 0.3s;
+  padding-right: 10px;
+}
+/* button click effect*/
+.Btn:active {
+  transform: translate(2px, 2px);
+}
+
+</style>
