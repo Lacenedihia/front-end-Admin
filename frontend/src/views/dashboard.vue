@@ -25,21 +25,52 @@
 <script>
 import { useAuth } from '@/stores/useAuth.js';
 import { useRouter } from 'vue-router';
+import axios from '@/api/axios';
+
+const LOGOUT_URL = '/logout';
 
 export default {
   name: 'dashboard',
   setup() {
     const { clearAuth } = useAuth();
     const router = useRouter();
-
-    const logout = () => {
-      // Clear auth state
-      clearAuth({});
-      // Redirect to login
-      console.log("logout");
-      router.push('/login');
+    
+    const logout = async () => {
+      try {
+        // Change from POST to GET - no body needed for GET
+        const response = await axios.get(LOGOUT_URL, {
+          withCredentials: true  // This ensures cookies are sent
+        });
+        
+        // Only clear auth AFTER successful logout
+        clearAuth();
+        console.log("logout successful");
+        router.push('/login');
+        
+      } catch (err) {
+        console.error("Logout error:", err);
+        
+        // Even if logout fails on server, clear local auth state
+        clearAuth();
+        router.push('/login');
+        
+        let errorMessage = 'Logout Failed';
+        if (!err.response) {
+          errorMessage = 'No Server Response';
+        } else if (err.response.status === 400) {
+          errorMessage = 'Bad Request';
+        } else if (err.response.status === 401) {
+          errorMessage = 'Unauthorized';
+        } else if (err.response.status === 404) {
+          errorMessage = 'Logout endpoint not found';
+        } else if (err.response.status === 500) {
+          errorMessage = 'Server Error - Please try again later';
+        }
+        
+        console.error(errorMessage);
+      }
     };
-
+    
     return {
       logout
     };

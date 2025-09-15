@@ -1,4 +1,25 @@
 <template>
+   <Transition name="toast">
+    <div v-if="errMsg" class="error-toast" @click="clearError">
+      <div class="toast-content">
+        <svg class="toast-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="15" y1="9" x2="9" y2="15"></line>
+          <line x1="9" y1="9" x2="15" y2="15"></line>
+        </svg>
+        <div class="toast-text">
+          <h4>Login Failed</h4>
+          <p>{{ errMsg }}</p>
+        </div>
+        <button class="toast-close" @click="clearError">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </Transition>
 <div>
   
   <div class="scroll-down"> SCROLL DOWN
@@ -14,10 +35,7 @@
     
     <form class="modal-container" @submit.prevent="handleSubmit">
       <div class="modal-left">
-        <!-- Error message display -->
-      <p ref="errRef" class="errmsg" :class="errMsg ? '' : 'offscreen'" aria-live="assertive">
-          {{ errMsg }}
-        </p>
+       
         
         <h1 class="modal-title">Register Page</h1>
         <p class="modal-desc"></p>
@@ -174,25 +192,52 @@ export default {
     const errRef = ref(null);
     const modalRef = ref(null);
     const user = ref('');
+     const errMsg = ref('');
     const validName = ref(false);
     const userFocus = ref(false);
     const pwd = ref('');
     const validPwd = ref(false);
     const pwdFocus = ref(false);
     const matchPwd = ref('');
+    const isOpened = ref(false);
+     const success = ref(false);
     const validMatch = ref(false);
     const matchFocus = ref(false);
-    const errMsg = ref('');
-    const success = ref(false);
- const isOpened = ref(false);
+   
+// Auto-hide error message after 5 seconds
+    let errorTimeout = null;
 
-    onMounted(() => {
-      userRef.value.focus();
+    const clearError = async () => {
+      errMsg.value = '';
+      if (errorTimeout) {
+        clearTimeout(errorTimeout);
+        errorTimeout = null;
+      }
+    };
+
+    const showError = (message) => {
+      errMsg.value = message;
+      
+      // Auto-hide after 5 seconds
+      if (errorTimeout) clearTimeout(errorTimeout);
+      errorTimeout = setTimeout(() => {
+        errMsg.value = '';
+      }, 5000);
+    };
+     onMounted(() => {
+      if (userRef.value) {
+        userRef.value.focus();
+      }
       setupModalEvents();
     });
+
     onUnmounted(() => {
       cleanupModalEvents();
+      if (errorTimeout) {
+        clearTimeout(errorTimeout);
+      }
     });
+
     watch(user, (newValue) => {
       validName.value = USER_REGEX.test(newValue);
     });
@@ -227,15 +272,17 @@ export default {
         pwd.value = '';
         matchPwd.value = '';
       } catch (err) {
+        let errorMessage = 'Login Failed';
         if (!err?.response) {
           errMsg.value = 'No Server Response';
         } else if (err.response?.status === 409) {
           errMsg.value = 'Username Taken';
         } else {
           errMsg.value = 'Registration Failed';
-        }
-        errRef.value.focus();
-      }
+        } 
+        showError(errorMessage);
+       
+      } 
     };
 const openModal = () => {
       if (modalRef.value) {
@@ -248,7 +295,7 @@ const openModal = () => {
       if (modalRef.value) {
         modalRef.value.classList.remove("is-open");
         document.body.style.overflow = "initial";
-      }
+      } clearError();
     };
 
     let scrollHandler;
@@ -303,6 +350,7 @@ const openModal = () => {
       matchFocus,
       errMsg,
       success,
+       clearError,
       handleSubmit,
       faCheck,
       faTimes,
@@ -326,6 +374,120 @@ body {
 }
 
 
+
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700");
+
+/* Toast/Popup Error Styles */
+.error-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  max-width: 400px;
+  min-width: 300px;
+  cursor: pointer;
+}
+
+.toast-content {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  box-shadow: 
+    0 10px 30px rgba(255, 107, 107, 0.3),
+    0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.toast-icon {
+  width: 24px;
+  height: 24px;
+  color: white;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.toast-text {
+  flex: 1;
+  color: white;
+}
+
+.toast-text h4 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Nunito", sans-serif;
+}
+
+.toast-text p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+  font-family: "Nunito", sans-serif;
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.toast-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.toast-close svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Toast Animation */
+.toast-enter-active, .toast-leave-active {
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toast-enter-from {
+  opacity: 0;
+  transform: translateX(100%) scale(0.8);
+}
+
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(100%) scale(0.8);
+}
+
+.toast-enter-to, .toast-leave-from {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+/* Success Toast Variant */
+.success-toast .toast-content {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  box-shadow: 
+    0 10px 30px rgba(39, 174, 96, 0.3),
+    0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Warning Toast Variant */
+.warning-toast .toast-content {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  box-shadow: 
+    0 10px 30px rgba(243, 156, 18, 0.3),
+    0 4px 15px rgba(0, 0, 0, 0.1);
+}
 
 
 .container {
@@ -733,7 +895,9 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
   transform: translateY(-50%) scale(.9);
   margin: 0em;
   margin-left: 1.3em;
-  padding: 0.4em;
+  padding: 0.5em;
+  align-items: center;
+  border-radius: 50px;
   background-color: #fff;
 }
 

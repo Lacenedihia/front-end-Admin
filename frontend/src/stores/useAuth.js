@@ -9,12 +9,25 @@ export function createAuthStore() {
     const auth = ref({})
 
     const setAuth = (newAuth) => {
-        auth.value = newAuth
-        console.log('loggedin')
+        auth.value = newAuth;
+        console.log("=== AUTH SET ===")
+        console.log("Username:", auth.value.user)
+        console.log("Roles:", auth.value.roles)
+        console.log("Access Token:", auth.value.accessToken)
+
+
+        console.log("================")
+
+
+        const firstRole = auth.value.roles[0];
+        console.log("First role number:", firstRole);  // Will show: 2001
+
     }
+
     const clearAuth = () => {
-        auth.value = {}
-        console.log('loggeout!!!!!')
+        auth.value = {};
+        console.log("none logg")
+        console.log(auth.value)
     }
 
     return {

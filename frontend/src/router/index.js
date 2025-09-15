@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+import { useAuth } from '@/stores/useAuth.js';
 const routes = [
   {
     path: "/",
@@ -10,7 +10,7 @@ const routes = [
     name: "LoginComponent",
     component: () => import("@/views/Login.vue"),
     meta: {
-      title: "LoginComponent",
+      requiresAuth: false,
     }
   },
   {
@@ -18,23 +18,16 @@ const routes = [
     name: "registerr",
     component: () => import("@/views/reg.vue"),
     meta: {
-      title: "registerr",
+      requiresAuth: false,
     }
   },
-  {
-    path: "/reg",
-    name: "register",
-    component: () => import("@/views/register.vue"),
-    meta: {
-      title: "register",
-    }
-  },
+
   {
     path: "/dashboard",
     name: "dashboard",
     component: () => import("@/views/dashboard.vue"),
     meta: {
-      title: "dashboard",
+      requiresAuth: true,
     }
   }
 ];
@@ -44,10 +37,5 @@ const router = createRouter({
   routes,
 })
 
-// Add this to debug navigation
-router.beforeEach((to, from, next) => {
-  console.log('Navigating from:', from.path, 'to:', to.path)
-  next()
-})
 
 export default router
