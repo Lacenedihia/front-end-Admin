@@ -120,7 +120,7 @@
           
    <!-- svgIcon -->
     <router-link to="/login" >
-<button class="Btn" type="submit" :disabled="!validName || !validPwd || !validMatch">
+<button class="Btn" type="submit" >
   <div class="sign">
     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
   </div>

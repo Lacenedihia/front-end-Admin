@@ -1,4 +1,5 @@
 <template>
+
 <div>
   <div class="scroll-down">SCROLL DOWN
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
@@ -18,22 +19,18 @@
         </p>
         
         <h1 class="modal-title">Welcome!</h1>
-        <p class="modal-desc">To the Dashboard made by Lacene dihia</p>
         
-        <div class="input-block">
-          <label for="email" class="input-label">User</label>
-          <input 
+        <div class="inputGroup">
+         <input 
             type="text" 
             name="email"   
             id="email" 
             placeholder="Email" 
             ref="userRef"
             v-model="user"
-            required>
+            required> 
         </div>
-        
-        <div class="input-block">
-          <label for="password" class="input-label">Password</label>
+        <div class="inputGroup">
           <input 
             type="password" 
             name="password" 
@@ -41,11 +38,30 @@
             placeholder="Password"   
             v-model="pwd"
             required>
+          
+          
         </div>
+       
         
         <div class="modal-buttons">
-          <router-link to="/register">Sign Up</router-link>
-          <button type="submit" class="input-button">Login</button>
+          
+   <!-- svgIcon -->
+    <router-link to="/register" >
+<button class="Btn">
+  <div class="sign">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
+  </div>
+
+  <div class="text">Sign up</div>
+</button></router-link>
+
+     <!-- From Uiverse.io by MUJTABA201566 --> 
+<button class="Btn" type="submit" >
+  <div class="sign">
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M400-304 240-464l56-56 104 104 264-264 56 56-320 320Z"/></svg></div>
+  <div class="text">LogIn</div>
+</button>
+ 
         </div>
         
       </div>
@@ -214,15 +230,27 @@ export default {
 };
 </script>
 
+
 <style scoped>
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700");
+
 * {
   box-sizing: border-box;
 }
+.icon-button{ fill:#ffffff;}
+.icon-button:hover{ fill:#89939a;}
+body {
+  font-family: "Nunito", sans-serif;
+  color: rgba(#000, 0.7);
+}
+
+
+
 
 .container {
   height: 200vh;
-  background-image: url("./public/walpaper.jpg");
-  background-size: cover;
+   background-image:  url("./public/walpaper.jpg");
+    background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -232,8 +260,178 @@ export default {
   left: 0;
   bottom: 0;
   width: 100%;
+  height: 100px;
+  background: rgba(#333, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: 0.4s;
+
+  &-container {
+    display: flex;
+    max-width: 720px;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    transition-duration: 0.3s;
+    background: #fff;
+    transform: translateY(100px) scale(0.4);
+  }
+
+  &-title {
+    font-size: 26px;
+    margin: 0;
+    font-weight: 400;
+    color: #55311c;
+  }
+
+  &-desc {
+    margin: 6px 0 30px 0;
+  }
+
+  &-left {
+    padding: 60px 30px 20px;
+    background: #fff;
+    flex: 1.5;
+    transition-duration: 0.5s;
+    transform: translateY(80px);
+    opacity: 0;
+  }
+
+  &-button {
+    color: darken(#dbc5d8, 5%);
+    font-family: "Nunito", sans-serif;
+    font-size: 18px;
+    cursor: pointer;
+    border: 0;
+    outline: 0;
+    padding: 10px 40px;
+    border-radius: 30px;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+    transition: 0.3s;
+    
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(#fff, 0.8);
+    }
+  }
+
+  &-right {
+    flex: 2;
+    font-size: 0;
+    transition: 0.3s;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      transform: scale(2);
+      object-fit: cover;
+      transition-duration: 1.2s;
+    }
+  }
+
+  &.is-open {
+    height: 100%;
+    background: rgba(#333, 0.85);
+
+    .modal-button {
+      opacity: 0;
+    }
+
+    .modal-container {
+      opacity: 1;
+      transition-duration: 0.6s;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-right img {
+      transform: scale(1);
+    }
+
+    .modal-left {
+      transform: translateY(0);
+      opacity: 1;
+      transition-delay: 0.1s;
+      margin-top: 30px;
+    }
+  }
+
+  &-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+      color: rgba(#333, 0.6);
+      font-size: 14px;
+    }
+  }
+}
+
+.sign-up {
+  margin: 60px 0 0;
+  font-size: 14px;
+  text-align: center;
+
+  a {
+    color: #dbc5d8;
+  }
+}
+
+
+.icon-button {
+  outline: 0;
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.scroll-down {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: darken(#f9fbfc, 5%);
+  font-size: 32px;
+  font-weight: 800;
+  transform: translate(-50%, -50%);
+  svg {
+    margin-top: 16px;
+    width: 52px;
+    fill: currentColor;
+  }
+}
+
+
+/* Add your styles here */
+* {
+  box-sizing: border-box;
+}
+
+
+.modal {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
   height: 60px;
-  background: rgba(51, 51, 51, 0.5);
+  background: rgba(172, 171, 171, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -243,11 +441,13 @@ export default {
 
 .modal-container {
   display: flex;
-  max-width: 720px;
-  width: 100%;
+ 
+  width: 60%;
+  height:60%;
   border-radius: 10px;
   overflow: hidden;
   position: absolute;
+  margin:15px;
   opacity: 0;
   pointer-events: none;
   transition-duration: 0.3s;
@@ -256,18 +456,20 @@ export default {
 }
 
 .modal-title {
-  font-size: 26px;
-  margin: 0;
-  font-weight: 400;
-  color: #55311c;
-}
+   text-align: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin: 10px 0 30px 0;
+  font-size: 28px;
+  font-weight: 800;
 
-.modal-desc {
-  margin: 6px 0 30px 0;
 }
+p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;}
+
 
 .modal-left {
-  padding: 60px 30px 20px;
+  padding: 60px 30px 60px;
   background: #fff;
   flex: 1.5;
   transition-duration: 0.5s;
@@ -336,16 +538,12 @@ export default {
 }
 
 .modal-buttons {
+  margin-top:70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.modal-buttons a {
-  color: rgba(51, 51, 51, 0.6);
-  font-size: 14px;
-  text-decoration: none;
-}
 
 .sign-up {
   margin: 60px 0 0;
@@ -358,62 +556,9 @@ export default {
   text-decoration: none;
 }
 
-.input-button {
-  padding: 8px 12px;
-  outline: none;
-  border: 0;
-  color: #fff;
-  border-radius: 4px;
-  background: #8c7569;
-  font-family: "Nunito", sans-serif;
-  transition: 0.3s;
-  cursor: pointer;
-}
 
-.input-button:hover {
-  background: #55311c;
-}
 
-.input-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  font-family: "Nunito", sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.7px;
-  color: #8c7569;
-  transition: 0.3s;
-}
 
-.input-block {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 10px 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  transition: 0.3s;
-}
-
-.input-block input {
-  outline: 0;
-  border: 0;
-  padding: 4px 0 0;
-  font-size: 14px;
-  font-family: "Nunito", sans-serif;
-}
-
-.input-block input::placeholder {
-  color: #ccc;
-  opacity: 1;
-}
-
-.input-block:focus-within {
-  border-color: #8c7569;
-}
-
-.input-block:focus-within .input-label {
-  color: rgba(140, 117, 105, 0.8);
-}
 
 .icon-button {
   outline: 0;
@@ -436,7 +581,7 @@ export default {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: #6b5b52;
+  color: #276789;
   font-size: 32px;
   font-weight: 800;
   transform: translate(-50%, -50%);
@@ -457,10 +602,6 @@ export default {
   border-radius: 4px;
 }
 
-.offscreen {
-  position: absolute;
-  left: -9999px;
-}
 
 @media(max-width: 750px) {
   .modal-container {
@@ -470,4 +611,198 @@ export default {
     display: none;
   }
 }
+
+
+
+
+.inputGroup {
+  font-family: 'Segoe UI', sans-serif;
+  margin-top:60px;
+  margin-bottom: 40px;
+    margin-left:20px;
+     margin-right:20px;
+  width:80%;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.inputGroup input {
+  font-size: 100%;
+  padding: 0.8em;
+  outline: none;
+  border: 2px solid rgb(200, 200, 200);
+  background-color: transparent;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.inputGroup label {
+  font-size: 100%;
+  position: absolute;
+  left: 0;
+ 
+  padding: 0.8em;
+  margin-left: 0.5em;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  color: rgb(100, 100, 100);
+}
+
+.inputGroup :is(input:focus, input:valid)~label {
+  transform: translateY(-50%) scale(.9);
+  margin: 0em;
+  margin-left: 1.3em;
+  padding: 0.4em;
+  background-color: #fff;
+}
+
+.inputGroup :is(input:focus, input:valid) {
+  border-color: rgb(150, 150, 200);
+}
+
+
+
+
+
+
+.tooltip-container {
+  position: relative;
+  z-index: 1000;
+}
+
+.tooltip-content {
+  position: absolute;
+ 
+  left: 0;
+  right: 0;
+  
+  color: rgb(0, 0, 0);
+  padding: 16px;
+  border-radius: 10px;
+  font-size: 18px;
+  line-height: 1.5;
+ 
+  background: rgba(255, 255, 255, 0.19);
+  backdrop-filter: blur(17px);
+  -webkit-backdrop-filter: blur(17px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 26px 13px rgba(255, 255, 255, 1.3);
+  margin-top: 8px;
+  transform: translateY(-10px) scale(0.95);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 1000;
+}
+
+.tooltip-content::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.tooltip-content.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip-content::after {
+ 
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
+.Btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: 0.3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background-color: white;
+}
+
+/* plus sign */
+.sign {
+  width: 100%;
+  transition-duration: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign svg {
+  width: 17px;
+}
+
+.sign svg path {
+  fill: black;
+}
+/* text */
+.text {
+  
+  right: 0%;
+  width: 0%;
+  opacity: 0;
+  color: white;
+  font-size: 1.2em;
+  font-weight: 600;
+  transition-duration: 0.3s;
+}
+/* hover effect on button width */
+.Btn:hover {
+  background-color: black;
+  width: 125px;
+  border-radius: 40px;
+  transition-duration: 0.3s;
+}
+
+.Btn:hover .sign {
+  width: 30%;
+  transition-duration: 0.3s;
+  padding-left: 20px;
+}
+
+.Btn:hover .sign svg path {
+  fill: white;
+}
+
+/* hover effect button's text */
+.Btn:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: 0.3s;
+  padding-right: 10px;
+}
+/* button click effect*/
+.Btn:active {
+  transform: translate(2px, 2px);
+}
+
 </style>
