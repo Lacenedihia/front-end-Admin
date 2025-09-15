@@ -15,7 +15,7 @@
     <form class="modal-container" @submit.prevent="handleSubmit">
       <div class="modal-left">
         <!-- Error message display -->
-        <p ref="errRef" class="errmsg" :class="errMsg ? '' : 'offscreen'" aria-live="assertive">
+      <p ref="errRef" class="errmsg" :class="errMsg ? '' : 'offscreen'" aria-live="assertive">
           {{ errMsg }}
         </p>
         
@@ -142,6 +142,7 @@
       </div>
       
       <div class="modal-right">
+          
         <img src="/public/login.jpg" alt="Login background">
       </div>
         <button type="button" class="icon-button close-button" @click="closeModal">
@@ -753,11 +754,9 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 .tooltip-content {
   position: absolute;
  
-  left: 0;
-  right: 0;
-  
+ 
   color: rgb(0, 0, 0);
-  padding: 16px;
+  padding: 6px;
   border-radius: 10px;
   font-size: 18px;
   line-height: 1.5;
@@ -870,7 +869,7 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 }
 
 .Btn:hover .sign svg path {
-  fill: white;
+  fill:#91e2e8;
 }
 
 /* hover effect button's text */

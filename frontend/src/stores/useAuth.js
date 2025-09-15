@@ -10,14 +10,15 @@ export function createAuthStore() {
 
     const setAuth = (newAuth) => {
         auth.value = newAuth
+        console.log('loggedin')
     }
-
     const clearAuth = () => {
         auth.value = {}
+        console.log('loggeout!!!!!')
     }
 
     return {
-        auth,
+
         setAuth,
         clearAuth
     }

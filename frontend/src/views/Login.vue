@@ -1,5 +1,26 @@
 <template>
-
+<!-- Error Popup Toast -->
+  <Transition name="toast">
+    <div v-if="errMsg" class="error-toast" @click="clearError">
+      <div class="toast-content">
+        <svg class="toast-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="15" y1="9" x2="9" y2="15"></line>
+          <line x1="9" y1="9" x2="15" y2="15"></line>
+        </svg>
+        <div class="toast-text">
+          <h4>Login Failed</h4>
+          <p>{{ errMsg }}</p>
+        </div>
+        <button class="toast-close" @click="clearError">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </Transition>
 <div>
   <div class="scroll-down">SCROLL DOWN
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
@@ -13,13 +34,10 @@
     
     <form class="modal-container" @submit.prevent="handleSubmit">
       <div class="modal-left">
-        <!-- Error message display -->
-        <p ref="errRef" class="errmsg" :class="errMsg ? '' : 'offscreen'" aria-live="assertive">
-          {{ errMsg }}
-        </p>
+       
         
         <h1 class="modal-title">Welcome!</h1>
-        
+      
         <div class="inputGroup">
          <input 
             type="text" 
@@ -92,15 +110,13 @@ const LOGIN_URL = '/auth';
 
 export default {
   name: 'LoginComponent',
-  
-       
   setup() {
-    const { setAuth } = useAuth();
+  
+    const {  setAuth } = useAuth();
     const router = useRouter();
 
     // Refs
     const userRef = ref(null);
-    const errRef = ref(null);
     const modalRef = ref(null);
 
     // Reactive data
@@ -109,6 +125,27 @@ export default {
     const errMsg = ref('');
     const success = ref(false);
     const isOpened = ref(false);
+
+    // Auto-hide error message after 5 seconds
+    let errorTimeout = null;
+
+    const clearError = () => {
+      errMsg.value = '';
+      if (errorTimeout) {
+        clearTimeout(errorTimeout);
+        errorTimeout = null;
+      }
+    };
+
+    const showError = (message) => {
+      errMsg.value = message;
+      
+      // Auto-hide after 5 seconds
+      if (errorTimeout) clearTimeout(errorTimeout);
+      errorTimeout = setTimeout(() => {
+        errMsg.value = '';
+      }, 5000);
+    };
 
     onMounted(() => {
       if (userRef.value) {
@@ -119,9 +156,14 @@ export default {
 
     onUnmounted(() => {
       cleanupModalEvents();
+      if (errorTimeout) {
+        clearTimeout(errorTimeout);
+      }
     });
 
     const handleSubmit = async () => {
+      clearError(); // Clear any existing errors
+      
       try {
         const response = await axios.post(LOGIN_URL,
           JSON.stringify({ user: user.value, pwd: pwd.value }),
@@ -131,6 +173,8 @@ export default {
           }
         );
         
+        console.log(JSON.stringify(response?.data));
+
         const accessToken = response.data.accessToken;
         const roles = response.data.roles;
         setAuth({ user: user.value, pwd: pwd.value, roles, accessToken });
@@ -138,25 +182,24 @@ export default {
         // Clear form
         user.value = '';
         pwd.value = '';
-        errMsg.value = '';
         success.value = true;
         
         // Redirect to dashboard
         router.push('/dashboard'); 
       } catch (err) {
+        let errorMessage = 'Login Failed';
+        
         if (!err.response) {
-          errMsg.value = 'No Server Response';
+          errorMessage = 'No Server Response';
         } else if (err.response.status === 400) {
-          errMsg.value = 'Missing Username or Password';
+          errorMessage = 'Missing Username or Password';
         } else if (err.response.status === 401) {
-          errMsg.value = 'Unauthorized';
-        } else {
-          errMsg.value = 'Login Failed';
+          errorMessage = 'Unauthorized - Invalid credentials';
+        } else if (err.response.status === 500) {
+          errorMessage = 'Server Error - Please try again later';
         }
         
-        if (errRef.value) {
-          errRef.value.focus();
-        }
+        showError(errorMessage);
       }
     };
 
@@ -172,6 +215,7 @@ export default {
         modalRef.value.classList.remove("is-open");
         document.body.style.overflow = "initial";
       }
+      clearError(); // Clear error when closing modal
     };
 
     let scrollHandler;
@@ -205,13 +249,11 @@ export default {
       if (keyHandler) {
         document.removeEventListener("keydown", keyHandler);
       }
-      // Reset body overflow when component unmounts
       document.body.style.overflow = "initial";
     };
 
     return {
       userRef,
-      errRef,
       modalRef,
       user,
       pwd,
@@ -219,14 +261,10 @@ export default {
       success,
       handleSubmit,
       openModal,
-      closeModal
+      closeModal,
+      clearError
     };
-  },
-  watch: {
-        show() {
-            this.registerpage = false;
-        },
-    },
+  }
 };
 </script>
 
@@ -245,7 +283,121 @@ body {
 }
 
 
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700");
 
+/* Toast/Popup Error Styles */
+.error-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  max-width: 400px;
+  min-width: 300px;
+  cursor: pointer;
+}
+
+.toast-content {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  box-shadow: 
+    0 10px 30px rgba(255, 107, 107, 0.3),
+    0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.toast-icon {
+  width: 24px;
+  height: 24px;
+  color: white;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.toast-text {
+  flex: 1;
+  color: white;
+}
+
+.toast-text h4 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Nunito", sans-serif;
+}
+
+.toast-text p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+  font-family: "Nunito", sans-serif;
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.toast-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.toast-close svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Toast Animation */
+.toast-enter-active, .toast-leave-active {
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toast-enter-from {
+  opacity: 0;
+  transform: translateX(100%) scale(0.8);
+}
+
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(100%) scale(0.8);
+}
+
+.toast-enter-to, .toast-leave-from {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+/* Success Toast Variant */
+.success-toast .toast-content {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  box-shadow: 
+    0 10px 30px rgba(39, 174, 96, 0.3),
+    0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Warning Toast Variant */
+.warning-toast .toast-content {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  box-shadow: 
+    0 10px 30px rgba(243, 156, 18, 0.3),
+    0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Rest of your existing styles */
 
 .container {
   height: 200vh;
@@ -261,7 +413,7 @@ body {
   bottom: 0;
   width: 100%;
   height: 100px;
-  background: rgba(#333, 0.5);
+  
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -338,7 +490,7 @@ body {
 
   &.is-open {
     height: 100%;
-    background: rgba(#333, 0.85);
+    
 
     .modal-button {
       opacity: 0;
@@ -407,7 +559,7 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: darken(#f9fbfc, 5%);
+  
   font-size: 32px;
   font-weight: 800;
   transform: translate(-50%, -50%);
@@ -431,7 +583,7 @@ body {
   bottom: 0;
   width: 100%;
   height: 60px;
-  background: rgba(172, 171, 171, 0.5);
+ 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -441,13 +593,19 @@ body {
 
 .modal-container {
   display: flex;
- 
+ /* From https://css.glass */
+background: rgba(206, 218, 240, 0.68);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(11.3px);
+-webkit-backdrop-filter: blur(11.3px);
+border: 1px solid rgba(206, 218, 240, 0.11);
   width: 60%;
-  height:60%;
+  height:50%;
   border-radius: 10px;
   overflow: hidden;
   position: absolute;
-  margin:15px;
+ 
   opacity: 0;
   pointer-events: none;
   transition-duration: 0.3s;
@@ -459,7 +617,7 @@ body {
    text-align: center;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
         "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  margin: 10px 0 30px 0;
+  
   font-size: 28px;
   font-weight: 800;
 
@@ -469,7 +627,8 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 
 
 .modal-left {
-  padding: 60px 30px 60px;
+margin-left: 15px;
+margin-right: 15px;
   background: #fff;
   flex: 1.5;
   transition-duration: 0.5s;
@@ -513,7 +672,13 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 
 .modal.is-open {
   height: 100%;
-  background: rgba(51, 51, 51, 0.85);
+ /* From https://css.glass */
+background: rgba(206, 218, 240, 0.44);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(11.3px);
+-webkit-backdrop-filter: blur(11.3px);
+border: 1px solid rgba(206, 218, 240, 0.11);
 }
 
 .modal.is-open .modal-button {
@@ -538,7 +703,7 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 }
 
 .modal-buttons {
-  margin-top:70px;
+  margin-top:90px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -598,7 +763,7 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
   color: firebrick;
   font-weight: bold;
   padding: 0.5rem;
-  margin-bottom: 0.5rem;
+
   border-radius: 4px;
 }
 
@@ -617,7 +782,7 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 
 .inputGroup {
   font-family: 'Segoe UI', sans-serif;
-  margin-top:60px;
+  margin-top:70px;
   margin-bottom: 40px;
     margin-left:20px;
      margin-right:20px;
@@ -673,11 +838,8 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 .tooltip-content {
   position: absolute;
  
-  left: 0;
-  right: 0;
-  
   color: rgb(0, 0, 0);
-  padding: 16px;
+  padding: 14px;
   border-radius: 10px;
   font-size: 18px;
   line-height: 1.5;
@@ -790,7 +952,7 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 }
 
 .Btn:hover .sign svg path {
-  fill: white;
+  fill:#91e2e8;
 }
 
 /* hover effect button's text */
