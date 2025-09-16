@@ -4,24 +4,20 @@ import { ref, inject } from 'vue'
 // Create a symbol for the auth context
 export const AuthSymbol = Symbol('Auth')
 
-// Auth state - this will be provided at the app level
-export function createAuthStore() {
-    const auth = ref({})
 
+// Global auth store instance
+const auth = ref({})
+
+export function createAuthStore() {
     const setAuth = (newAuth) => {
         auth.value = newAuth;
+
         console.log("=== AUTH SET ===")
         console.log("Username:", auth.value.user)
-        console.log("Roles:", auth.value.roles)
+        const firstRole = auth.value.roles?.[0];
+        console.log("First role number:", firstRole);
         console.log("Access Token:", auth.value.accessToken)
-
-
         console.log("================")
-
-
-        const firstRole = auth.value.roles[0];
-        console.log("First role number:", firstRole);  // Will show: 2001
-
     }
 
     const clearAuth = () => {
@@ -30,14 +26,23 @@ export function createAuthStore() {
         console.log(auth.value)
     }
 
-    return {
+    const isAuthenticated = () => {
+        const firstRole = auth.value.roles?.[0];
+        return firstRole === 2001;
+    }
 
+    return {
+        auth,
         setAuth,
-        clearAuth
+        clearAuth,
+        isAuthenticated
     }
 }
 
-// Auth consumer hook - use this in components
+// Export the global store instance
+export const globalAuthStore = createAuthStore()
+
+
 export function useAuth() {
     const context = inject(AuthSymbol)
     if (!context) {

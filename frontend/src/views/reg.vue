@@ -375,8 +375,6 @@ body {
 
 
 
-@import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700");
-
 /* Toast/Popup Error Styles */
 .error-toast {
   position: fixed;

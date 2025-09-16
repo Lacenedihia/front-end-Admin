@@ -103,6 +103,7 @@
 <script>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useAuth } from '@/stores/useAuth.js';
+
 import { useRouter } from 'vue-router';
 import axios from '@/api/axios';
 
@@ -283,9 +284,6 @@ body {
 }
 
 
-@import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700");
-
-/* Toast/Popup Error Styles */
 .error-toast {
   position: fixed;
   top: 20px;

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useAuth } from '@/stores/useAuth.js';
+import { globalAuthStore } from '@/stores/useAuth.js'
 const routes = [
   {
     path: "/",
@@ -21,7 +21,6 @@ const routes = [
       requiresAuth: false,
     }
   },
-
   {
     path: "/dashboard",
     name: "dashboard",
@@ -37,5 +36,13 @@ const router = createRouter({
   routes,
 })
 
+router.beforeEach((to, from, next) => {
+  const firstRole = globalAuthStore.auth.value?.roles?.[0]
 
+  if (to.meta.requiresAuth && firstRole !== 2001) {
+    next('/login')
+  } else {
+    next()
+  }
+})
 export default router
