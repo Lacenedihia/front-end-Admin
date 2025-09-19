@@ -2,10 +2,10 @@
     <ToastNotification :message="message" :isVisible="isVisible"  />
     <div v-if="isShown" class="confirm-container">
         <div class="confirm-delete">
-            <h3>{{ $t("Are you sure you want to delete this Blog ?") }}</h3>
+            <h3>Are you sure you want to delete this Blog ?</h3>
 
             <div class="btn-container">
-                <button @click="deleteBlog()">{{ $t("Yes") }}</button>
+                <button @click="deleteBlog()">Yes</button>
                 <button @click="this.closeConfirm()" class="btn-no">No</button>
             </div>
         </div>

@@ -26,9 +26,81 @@ const routes = [
     name: "dashboard",
     component: () => import("@/views/dashboard.vue"),
     meta: {
-      requiresAuth: true,
+      requiresAuth: false,
     }
-  }
+  },
+  {
+    path: "/blogs",
+    name: "BlogsPage",
+    component: () => import("@/views/blog/Blogpage.vue"),
+    meta: {
+      requiresAuth: false,
+    }
+  },
+  {
+    path: "/blog/:id",
+    name: "DetailBlog",
+    component: () => import("@/views/blog/Detailblog.vue"),
+    meta: {
+      title: "blog",
+    },
+  },
+
+  {
+    path: "/adminBlogs",
+    name: "adminBlogs",
+    component: () => import("@/views/Admin/Blog/AdminBlogs.vue"),
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/addBlogs",
+    name: "addBlogs",
+    component: () => import("@/views/Admin/Blog/AddBlog.vue"),
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/updateBlog/:id",
+    name: "updateBlog",
+    component: () => import("@/views/Admin/Blog/UpdateBlog.vue"),
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/categories",
+    name: "adminCategories",
+    component: () => import("@/views/Categories/AdminCategories.vue"),
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/updateCategory/:id",
+    name: "updateCategory",
+    component: () => import("@/views/Categories/UpdateCategory.vue"),
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/addCategory",
+    name: "addCategory",
+    component: () => import("@/views/Categories/AddCategory.vue"),
+    meta: {
+      requiresAuth: false,
+    },
+  }, {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: () => import("@/views/NotFound.vue"),
+    meta: {
+      requiresAuth: false,
+    },
+  },
 ];
 
 const router = createRouter({

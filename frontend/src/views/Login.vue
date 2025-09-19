@@ -94,8 +94,42 @@
         </svg>
       </button>
     </form>
+    <div class="btn-container close-button"  >
+      <!-- From Uiverse.io by vinodjangid07 --> 
+       <a  href="https://github.com/Lacenedihia"><button class="Btng btnn-button">
+      <svg class="svgIcong" viewBox="0 0 496 512" height="1.4em" xmlns="http://www.w3.org/2000/svg"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+      <span class="textg">Github</span>
+    </button></a>
     
-    <button class="modal-button" type="button" @click="openModal">Click here to login</button>
+    <!-- From Uiverse.io by wilsondesouza --> 
+     <a href="https://www.linkedin.com/in/dihia-lacene/"><button class="Btnl btnn-button">
+  <svg
+    viewBox="0 0 16 16"
+    height="16"
+    width="16"
+    xmlns="http://www.w3.org/2000/svg"
+    class="svgIconl"
+  >
+    <path
+      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"
+    ></path>
+  </svg>
+  <span class="textl">LinkedIn</span>
+</button></a>
+
+
+       <button class="modal-button" type="button" @click="openModal">Click here to login</button>
+  <!-- From Uiverse.io by vinodjangid07 --> 
+   <router-link  to="/blogs"><button class="Btnn btnn-button">Blogs
+    <!--  class="svgg" -->
+     
+    <svg xmlns="http://www.w3.org/2000/svg" class="svgg" height="100px" viewBox="0 -960 960 960" width="40px" fill="#FFFFFF"><path d="M146.67-120q-27.5 0-47.09-19.58Q80-159.17 80-186.67V-840l67 67 66-67 67 67 67-67 66 67 67-67 67 67 66-67 67 67 67-67 66 67 67-67v653.33q0 27.5-19.58 47.09Q840.83-120 813.33-120H146.67Zm0-66.67h300v-266.66h-300v266.66Zm366.66 0h300v-100h-300v100Zm0-166.66h300v-100h-300v100ZM146.67-520h666.66v-120H146.67v120Z"/></svg>
+    
+    </button></router-link>
+   </div>
+   
+
+
   </div>
 </div>
 </template>
@@ -282,7 +316,9 @@ body {
   font-family: "Nunito", sans-serif;
   color: rgba(#000, 0.7);
 }
-
+a {
+  text-decoration: none;
+}   
 
 .error-toast {
   position: fixed;
@@ -493,7 +529,7 @@ body {
     .modal-button {
       opacity: 0;
     }
-
+.btnn-button{ opacity: 0;}
     .modal-container {
       opacity: 1;
       transition-duration: 0.6s;
@@ -634,24 +670,6 @@ margin-right: 15px;
   opacity: 0;
 }
 
-.modal-button {
-  color: #6b5b52;
-  font-family: "Nunito", sans-serif;
-  font-size: 18px;
-  cursor: pointer;
-  border: 0;
-  outline: 0;
-  padding: 10px 40px;
-  border-radius: 30px;
-  background: rgb(255, 255, 255);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
-  transition: 0.3s;
-}
-
-.modal-button:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.8);
-}
 
 .modal-right {
   flex: 2;
@@ -682,7 +700,9 @@ border: 1px solid rgba(206, 218, 240, 0.11);
 .modal.is-open .modal-button {
   opacity: 0;
 }
-
+.modal.is-open .btnn-button {
+  opacity: 0;
+}
 .modal.is-open .modal-container {
   opacity: 1;
   transition-duration: 0.6s;
@@ -963,6 +983,209 @@ border: 1px solid rgba(206, 218, 240, 0.11);
 /* button click effect*/
 .Btn:active {
   transform: translate(2px, 2px);
+}
+.btn-container{
+  display:flex;
+  flex-direction: row;
+  gap:25px ;
+}
+/* From Uiverse.io by cssbuttons-io */ 
+.modal-button {
+  position: relative;
+  font-size: 17px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1.1em 2.5em;
+  display: inline-block;
+   align-items: center;
+  cursor: pointer;
+  border-radius: 6em;
+  transition: all 0.2s;
+  border: none;
+  margin-bottom:3em;
+  font-family: inherit;
+  font-weight: 500;
+  color: black;
+  background-color: white;
+}
+
+.modal-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-button::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all 0.4s;
+}
+
+.modal-button::after {
+  background-color: #fff;
+}
+
+.modal-button:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0;
+}
+
+/**** */
+/* From Uiverse.io by vinodjangid07 */ 
+.Btnn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100px;
+  height: 40px;
+  border: none;
+  margin-top: 15px;
+  padding: 0px 20px;
+  background-color: rgb(62,139,174);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px rgb(41,101,137);
+  transition-duration: .3s;
+}
+
+.svgg {
+  width: 20px;
+  position: absolute;
+  right: 0;
+  margin-right: 15px;
+  fill: white;
+  transition-duration: .3s;
+}
+
+.Btnn:hover {
+  color: transparent;
+}
+
+.Btnn:hover svg {
+  right: 43%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  transition-duration: .3s;
+}
+
+.Btnn:active {
+  transform: translate(3px , 3px);
+  transition-duration: .3s;
+  box-shadow: 2px 2px 0px rgb(140, 32, 212);
+}
+
+/* From Uiverse.io by vinodjangid07 */ 
+.Btng {
+  border: none;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top:0.25em;
+  transition-duration: .4s;
+  cursor: pointer;
+  position: relative;
+  background-color: rgb(31, 31, 31);
+  overflow: hidden;
+}
+
+.svgIcong {
+  transition-duration: .3s;
+}
+
+.svgIcong path {
+  fill: white;
+}
+
+.textg {
+  position: absolute;
+  color: rgb(255, 255, 255);
+  width: 120px;
+  font-weight: 600;
+  opacity: 0;
+  transition-duration: .4s;
+}
+
+.Btng:hover {
+  width: 110px;
+  transition-duration: .4s;
+  border-radius: 30px;
+}
+
+.Btng:hover .textg {
+  opacity: 1;
+  transition-duration: .4s;
+}
+
+.Btng:hover .svgIcong {
+  opacity: 0;
+  transition-duration: .3s;
+}
+
+/* From Uiverse.io by wilsondesouza */ 
+.Btnl {
+  border: none;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-duration: 0.4s;
+  cursor: pointer;
+   top:0.25em;
+  position: relative;
+  background: #0274b3;
+}
+
+.svgIconl {
+  transition-duration: 0.3s;
+}
+
+.svgIconl path {
+  fill: white;
+}
+
+.textl {
+  position: absolute;
+  color: rgb(255, 255, 255);
+  width: 120px;
+  font-weight: 600;
+  opacity: 0;
+  transition-duration: 0.4s;
+}
+
+.Btnl:hover {
+  width: 110px;
+  transition-duration: 0.4s;
+  border-radius: 30px;
+}
+
+.Btnl:hover .textl {
+  opacity: 1;
+  transition-duration: 0.4s;
+}
+
+.Btnl:hover .svgIconl {
+  opacity: 0;
+  transition-duration: 0.3s;
 }
 
 </style>

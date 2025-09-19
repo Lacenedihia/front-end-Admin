@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1 class="page-title">{{ $t("This page doesn't seem to exist.") }}</h1>
-        <p class="page-sub-title">{{ $t("It looks like the link pointing here was faulty.") }}</p>
+        <h1 class="page-title">This page doesn't seem to exist</h1>
+        <p class="page-sub-title">It looks like the link pointing here was faulty.</p>
     </div>
 </template>
 

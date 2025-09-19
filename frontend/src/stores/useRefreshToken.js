@@ -1,20 +1,22 @@
+// useRefreshToken.js
 import axios from '../api/axios';
-import useAuth from './useAuth';
 
-const useRefreshToken = () => {
-    const { setAuth } = useAuth();
-
+const useRefreshToken = (setAuth) => {
     const refresh = async () => {
         const response = await axios.get('/refresh', {
             withCredentials: true
         });
-        setAuth(prev => {
-            console.log(JSON.stringify(prev));
-            console.log(response.data.accessToken);
-            return { ...prev, accessToken: response.data.accessToken }
-        });
-        return response.data.accessToken;
-    }
+
+        // The API should return a complete auth object
+        const newAuth = {
+            user: response.data.user,
+            roles: response.data.roles,
+            accessToken: response.data.accessToken
+        };
+
+        setAuth(newAuth); // Directly set the new auth object
+        return newAuth.accessToken;
+    };
     return refresh;
 };
 

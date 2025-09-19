@@ -179,11 +179,11 @@ import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import axios from '../api/axios';
-
+import { useRouter } from 'vue-router';
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = '/register';
-
+import { useAuth } from '@/stores/useAuth.js';
 export default {
     name: 'registerr',
   components: { FontAwesomeIcon },
@@ -196,6 +196,7 @@ export default {
     const validName = ref(false);
     const userFocus = ref(false);
     const pwd = ref('');
+     const {  setAuth } = useAuth();
     const validPwd = ref(false);
     const pwdFocus = ref(false);
     const matchPwd = ref('');
@@ -203,7 +204,7 @@ export default {
      const success = ref(false);
     const validMatch = ref(false);
     const matchFocus = ref(false);
-   
+    const router = useRouter();
 // Auto-hide error message after 5 seconds
     let errorTimeout = null;
 
@@ -251,39 +252,56 @@ export default {
       errMsg.value = '';
     });
 
-    const handleSubmit = async () => {
-      const v1 = USER_REGEX.test(user.value);
-      const v2 = PWD_REGEX.test(pwd.value);
-      if (!v1 || !v2) {
+ const handleSubmit = async () => {
+    const v1 = USER_REGEX.test(user.value);
+    const v2 = PWD_REGEX.test(pwd.value);
+    if (!v1 || !v2) {
         errMsg.value = "Invalid Entry";
         return;
-      }
-      try {
+    }
+    
+    try {
         const response = await axios.post(REGISTER_URL,
-          JSON.stringify({ user: user.value, pwd: pwd.value }),
-          {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true
-          }
+            JSON.stringify({ user: user.value, pwd: pwd.value }),
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            }
         );
-        console.log(JSON.stringify(response?.data));
+        
+        console.log('Registration response:', JSON.stringify(response?.data));
+        
+        const { accessToken, roles } = response.data;
+        
+        // Set the authentication state with the roles object structure
+        setAuth({ 
+            user: user.value, 
+            accessToken: accessToken,
+            roles: roles  // This will be { User: 2001 } for new users
+        });
+        
+        // Clear form
         success.value = true;
         user.value = '';
         pwd.value = '';
         matchPwd.value = '';
-      } catch (err) {
-        let errorMessage = 'Login Failed';
+        
+        // Redirect to dashboard
+        router.push('/dashboard');
+        
+    } catch (err) {
+        let errorMessage = 'Registration Failed';
         if (!err?.response) {
-          errMsg.value = 'No Server Response';
+            errMsg.value = 'No Server Response';
         } else if (err.response?.status === 409) {
-          errMsg.value = 'Username Taken';
+            errMsg.value = 'Username Taken';
         } else {
-          errMsg.value = 'Registration Failed';
-        } 
+            errMsg.value = 'Registration Failed';
+        }
+        
         showError(errorMessage);
-       
-      } 
-    };
+    }
+};
 const openModal = () => {
       if (modalRef.value) {
         modalRef.value.classList.add("is-open");
@@ -621,9 +639,6 @@ body {
   font-size: 14px;
   text-align: center;
 
-  a {
-    color: #dbc5d8;
-  }
 }
 
 
@@ -779,7 +794,7 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 }
 
 .modal-buttons {
-  margin-top:70px;
+  margin-top:50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -788,7 +803,7 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 
 .sign-up {
   margin: 60px 0 0;
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
 }
 
@@ -804,7 +819,7 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 .icon-button {
   outline: 0;
   position: absolute;
-  right: 10px;
+  right: 15px;
   top: 12px;
   width: 32px;
   height: 32px;
@@ -999,7 +1014,7 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 }
 
 .sign svg {
-  width: 17px;
+  width: 35px;
 }
 
 .sign svg path {
@@ -1027,19 +1042,20 @@ p{font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 .Btn:hover .sign {
   width: 30%;
   transition-duration: 0.3s;
-  padding-left: 20px;
+  
 }
 
 .Btn:hover .sign svg path {
-  fill:#91e2e8;
+
+  display: none;
 }
 
 /* hover effect button's text */
 .Btn:hover .text {
   opacity: 1;
-  width: 70%;
+  width: 100%;
   transition-duration: 0.3s;
-  padding-right: 10px;
+  margin-right: 10px;
 }
 /* button click effect*/
 .Btn:active {

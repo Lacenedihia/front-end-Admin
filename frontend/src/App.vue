@@ -1,12 +1,13 @@
 
 <script>
-import { RouterView } from 'vue-router'
-import { provide, computed } from 'vue'
-import { createAuthStore, AuthSymbol } from '@/stores/useAuth.js'
-import Header from '@/components/Header.vue'
-import NavItems from '@/components/NavItems.vue'
-import Footer from '@/components/Footer.vue'
-import { globalAuthStore } from '@/stores/useAuth.js'
+import { RouterView } from 'vue-router';
+import { provide, computed, onMounted } from 'vue';
+import {  AuthSymbol } from '@/stores/useAuth.js';
+import Header from '@/components/Header.vue';
+import NavItems from '@/components/NavItems.vue';
+import Footer from '@/components/Footer.vue';
+import useRefreshToken from "@/stores/useRefreshToken.js";
+import { globalAuthStore } from "@/stores/useAuth.js"
 
 export default {
   name: "App",
@@ -16,34 +17,38 @@ export default {
     NavItems,
     RouterView
   },
-  
+
   setup() {
-    // Create and provide the auth store
-    const authStore = createAuthStore()
-    provide(AuthSymbol, authStore)
+    // Provide the global auth store
+    provide(AuthSymbol, globalAuthStore);
     
-    // Create a computed property for firstRole that's reactive
+    // Pass the setAuth function from the global store to the refresh hook
+    const refresh = useRefreshToken(globalAuthStore.setAuth);
+
     const firstRole = computed(() => {
-      return globalAuthStore.auth.value?.roles?.[0]
-    })
+      return globalAuthStore.auth.value?.roles?.[0];
+    });
     
-    // Create a computed property to check if user is admin
-    const isAdmin = computed(() => {
-      return firstRole.value === 2001
-    })
+    onMounted(async () => {
+      console.log('App mounted, checking for existing authentication...');
+      try {
+        await refresh();
+        console.log('Authentication restored from refresh token');
+      } finally {
+        console.log('done');
+      }
+    });
     
-    // Return properties to be used in template
     return {
       firstRole,
-      isAdmin
-    }
+    };
   }
 }
 </script>
 
 <template>
   <!-- Admin layout (only shown for admin users) -->
-  <div v-if="isAdmin" class="app-layout">
+  <div v-if="firstRole" class="app-layout">
     <aside class="sidebar">
       <NavItems />
     </aside>
@@ -78,7 +83,7 @@ export default {
   flex: none;
   width: 100%;
 }
-
+a{text-decoration: none;}
 .main-content {
   flex: 1;
   padding: 20px;
